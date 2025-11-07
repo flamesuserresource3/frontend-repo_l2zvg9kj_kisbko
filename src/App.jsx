@@ -1,28 +1,32 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import PostComposer from './components/PostComposer';
+import ProductComposer from './components/ProductComposer';
+import Feed from './components/Feed';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [items, setItems] = useState([]);
+
+  const handleCreate = (item) => {
+    setItems((prev) => [item, ...prev]);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+    <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900">
+      <Navbar />
+      <Hero />
 
-export default App
+      <main className="max-w-6xl mx-auto py-12 space-y-12">
+        <PostComposer onCreate={handleCreate} />
+        <ProductComposer onCreate={handleCreate} />
+        <section className="px-4">
+          <h2 className="text-xl font-semibold mb-4">Latest</h2>
+          <Feed items={items} />
+        </section>
+      </main>
+
+      <footer className="py-10 text-center text-slate-500">Built with love • VibeForum</footer>
+    </div>
+  );
+}
